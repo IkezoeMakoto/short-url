@@ -1,0 +1,13 @@
+version: "3"
+services:
+  api:
+    container_name: ${PREFIX}_api
+    build:
+      context: ./api
+      args:
+        ENV: local
+#    links:
+#      - database
+#      - redis
+    ports:
+      - "${API_PORT}:8080"
