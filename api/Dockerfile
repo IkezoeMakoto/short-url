@@ -17,6 +17,8 @@ WORKDIR /go/src/github.com/IkezoeMakoto/short-url/api
 ARG ENV=local
 COPY .env.${ENV} .env
 
+RUN make setup
+
 RUN make build
 
 CMD ["./bin/server"]

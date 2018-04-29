@@ -11,6 +11,6 @@ func main() {
 	if err != nil {
 		panic("failed to load .env")
 	}
-
-	fmt.Println("hello")
+	hoge := os.Getenv("HOGE")
+	fmt.Println("hello", hoge)
 }

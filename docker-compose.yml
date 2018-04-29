@@ -6,6 +6,8 @@ services:
       context: ./api
       args:
         ENV: local
+#    volumes:
+#      - ./:/go/src/github.com/IkezoeMakoto/short-url/api
 #    links:
 #      - database
 #      - redis

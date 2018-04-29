@@ -1,0 +1,4 @@
+package: github.com/IkezoeMakoto/short-url
+import:
+- package: github.com/joho/godotenv
+  version: ^1.2.0
