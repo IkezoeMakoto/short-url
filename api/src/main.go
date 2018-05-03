@@ -2,13 +2,17 @@ package main
 
 import (
 	"os"
-	"net/http"
+	"fmt"
 	"log"
+	"strconv"
+	"net/http"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"github.com/IkezoeMakoto/short-url/api/src/middleware"
+	"github.com/IkezoeMakoto/short-url/api/src/lib"
+	"github.com/IkezoeMakoto/short-url/api/src/controller"
 )
 
 func main() {
@@ -31,18 +35,31 @@ func main() {
 		"\n\n\x1b[31m",
 		log.LstdFlags)))
 
+	rp, err := strconv.Atoi(os.Getenv("REDIS_PORT"))
+	if err != nil {
+		fmt.Println(err)
+		panic("invalid redis port")
+	}
+	rc := lib.RedisConnector{
+		os.Getenv("REDIS_HOST"),
+		rp,
+	}
+	redisClient := rc.Connect()
+	_, err = redisClient.Ping().Result()
+	if err != nil {
+		panic(err)
+	}
+
 	// setting routing
+	u := controller.Url{redisClient}
+	r.GET("/move/:hash", u.Get)
+
 	v1 := r.Group("/api/v1")
-	v1.GET("/", func(c *gin.Context) {
+	v1.GET("/ping", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"message": "pong",
 		})
 	})
-	v1.GET("/:path", Index)
 
 	r.Run()
-}
-
-func Index(c *gin.Context) {
-	c.String(http.StatusOK, "Hello %s", c.Param("path"))
 }
