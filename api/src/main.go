@@ -1,18 +1,18 @@
 package main
 
 import (
-	"os"
 	"fmt"
 	"log"
-	"strconv"
 	"net/http"
+	"os"
+	"strconv"
 
+	"github.com/IkezoeMakoto/short-url/api/src/controller"
+	"github.com/IkezoeMakoto/short-url/api/src/lib"
+	"github.com/IkezoeMakoto/short-url/api/src/middleware"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
-	"github.com/IkezoeMakoto/short-url/api/src/middleware"
-	"github.com/IkezoeMakoto/short-url/api/src/lib"
-	"github.com/IkezoeMakoto/short-url/api/src/controller"
 )
 
 func main() {
@@ -55,11 +55,14 @@ func main() {
 	r.GET("/move/:hash", u.Get)
 
 	v1 := r.Group("/api/v1")
-	v1.GET("/ping", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "pong",
+	{
+		v1.GET("/ping", func(c *gin.Context) {
+			c.JSON(http.StatusOK, gin.H{
+				"message": "pong",
+			})
 		})
-	})
+		v1.POST("/url", u.Add)
+	}
 
 	r.Run()
 }

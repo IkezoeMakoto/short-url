@@ -1,8 +1,8 @@
 package lib
 
 import (
-	"strconv"
 	"github.com/go-redis/redis"
+	"strconv"
 )
 
 type RedisConnector struct {
