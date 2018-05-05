@@ -16,6 +16,9 @@ run:
 fmt:
 	find src/ -type f -name '*.go' | xargs -n 1 go fmt
 
+vet:
+	find src/ -type f -name '*.go' | xargs -n 1 go vet
+
 .env:
 	@cp .env.local .env
 
